@@ -13,6 +13,7 @@
       --spice-hot: #C0392B; --spice-mild: #2D7A3A; --spice-sweet: #8B5CF6; --spice-tangy: #0891B2;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-main); overflow-x: hidden; }
     h1, h2, h3, h4, .playfair { font-family: 'Playfair Display', serif; }
     .bebas { font-family: 'Bebas Neue', sans-serif; }
@@ -124,6 +125,32 @@
     .pack-card:hover { background: var(--orange); color: var(--dark); }
     .pack-card .price { font-family: 'Bebas Neue'; font-size: 48px; color: var(--orange); margin: 16px 0; }
     .pack-card:hover .price { color: var(--dark); }
+    /* About Section */
+    .about { padding: 100px 0; background: var(--beige); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .about-art { height: 380px; border-radius: 16px; background: radial-gradient(ellipse at 40% 60%, #FDB562 0%, #D97B0A 40%, #6B2D00 100%); position: relative; overflow: hidden; }
+    .about-art::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80%; height: 50%; background: radial-gradient(ellipse at 50% 30%, #EDE0C4 0%, #8B6118 40%, #3D1F00 100%); border-radius: 0 0 200px 200px; }
+    .about-content .label { margin-bottom: 16px; display: block; }
+    .about-content h2 { font-size: 48px; color: var(--dark); line-height: 1.15; margin-bottom: 24px; }
+    .about-content p { color: var(--text-muted); font-size: 16px; line-height: 1.8; margin-bottom: 16px; }
+    .about-values { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+    .value-item { background: var(--white); padding: 20px; border-radius: 10px; border-left: 3px solid var(--orange); }
+    .value-item h4 { font-family: 'DM Sans'; font-weight: 700; margin-bottom: 6px; font-size: 15px; }
+    .value-item p { font-size: 13px; margin: 0; }
+    /* Contact Section */
+    .contact { padding: 100px 0; background: var(--dark); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .contact h2 { font-size: 48px; color: var(--cream); line-height: 1.15; margin-bottom: 16px; }
+    .contact .label { margin-bottom: 16px; display: block; }
+    .contact-info { color: var(--beige); font-size: 15px; line-height: 2; margin-top: 24px; }
+    .contact-info strong { color: var(--orange); display: block; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 20px; margin-bottom: 4px; }
+    .contact-form { background: rgba(255,255,255,0.05); border: 1px solid rgba(247,148,29,0.2); padding: 40px; border-radius: 12px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--orange); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(237,224,196,0.2); border-radius: 6px; color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 15px; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--orange); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select option { background: var(--dark); }
   </style>
 </head>
 <body>
@@ -140,7 +167,7 @@
       </div>
       <div class="nav-actions">
         <a href="cart.html" class="cart-icon">🛒 <span class="cart-badge" id="cart-badge">0</span></a>
-        <button class="btn-orange">Order Now</button>
+        <button class="btn-orange" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Order Now</button>
       </div>
     </div>
   </nav>
@@ -153,7 +180,7 @@
       <p>Authentic flavours. Premium quality.<br>Crafted for every craving.<br>Available at Reliance Retail nationwide.</p>
       <div class="hero-ctas">
         <button class="btn-orange" onclick="document.getElementById('catalog').scrollIntoView({behavior: 'smooth'})">Explore Collection →</button>
-        <button class="btn-outline">Our Story</button>
+        <button class="btn-outline" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Our Story</button>
       </div>
       <div class="stats-bar">
         <div class="stat-item"><div class="stat-num bebas">55+</div><div class="stat-label">Products</div></div>
@@ -223,6 +250,92 @@
         <div class="pack-card"><h3>200gm</h3><div class="price">₹122</div><p>Trial size</p></div>
         <div class="pack-card"><h3>250gm</h3><div class="price">₹132</div><p>Jhal Muri only</p></div>
         <div class="pack-card"><h3>150gm</h3><div class="price">₹169</div><p>Banana Chips only</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid fade-up">
+        <div class="about-art"></div>
+        <div class="about-content">
+          <span class="label">Who We Are</span>
+          <h2 class="playfair">A Legacy of Authentic Indian Flavour</h2>
+          <p>Global Food & Beverages was born from a simple belief: that the rich heritage of Indian namkeen and snacks deserves to be celebrated at every table, in every home, across the nation.</p>
+          <p>With over 55 meticulously crafted products — from classic Bikaneri Bhujia to smoky Banana Chips — we source the finest ingredients and honour traditional recipes that have stood the test of time.</p>
+          <p>Available exclusively at Reliance Retail stores across India, our snacks bring the authentic tastes of regional India to more than 1,000 stores nationwide.</p>
+          <div class="about-values">
+            <div class="value-item">
+              <h4>🌾 Authentic Recipes</h4>
+              <p>Time-honoured regional recipes crafted by master snack artisans.</p>
+            </div>
+            <div class="value-item">
+              <h4>✅ Hygienic Packing</h4>
+              <p>State-of-the-art facilities ensuring freshness and safety.</p>
+            </div>
+            <div class="value-item">
+              <h4>🏪 Pan-India Reach</h4>
+              <p>Present in 1,000+ Reliance Retail stores across every state.</p>
+            </div>
+            <div class="value-item">
+              <h4>🌿 Quality Ingredients</h4>
+              <p>Carefully sourced spices and ingredients for superior taste.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <span class="label">Get In Touch</span>
+          <h2 class="playfair">We'd Love to Hear From You</h2>
+          <div class="contact-info">
+            <strong>📍 Headquarters</strong>
+            Global Food & Beverages Pvt. Ltd.<br>
+            Andheri East, Mumbai – 400 069,<br>Maharashtra, India
+            <strong>📞 Phone</strong>
+            +91 99999 99999
+            <strong>📧 Email</strong>
+            info@globalfoodbev.com
+            <strong>🕐 Business Hours</strong>
+            Monday – Saturday: 9:00 AM – 6:00 PM IST
+            <strong>🏪 Available At</strong>
+            Reliance Retail stores across India
+          </div>
+        </div>
+        <div>
+          <div class="contact-form">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="e.g. Rahul Sharma">
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+              <label>Enquiry Type</label>
+              <select>
+                <option value="">Select a topic…</option>
+                <option>Wholesale / Bulk Order</option>
+                <option>Product Feedback</option>
+                <option>Store Availability</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea placeholder="Tell us how we can help…"></textarea>
+            </div>
+            <button class="btn-orange" style="width:100%; padding:14px; font-size:15px;" onclick="alert('Thank you! We will get back to you shortly.')">Send Message →</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>

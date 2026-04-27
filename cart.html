@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart | Global Food & Beverages</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    /* Exact duplicate of root/navbar styles to maintain standalone requirements */
+    :root { --cream: #FAF5EB; --beige: #EDE0C4; --orange: #F7941D; --dark: #222222; --text-main: #222222; --text-muted: #6B5C44; --white: #FFFFFF; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-main); }
+    h1, h2, h3, .playfair { font-family: 'Playfair Display', serif; }
+    .bebas { font-family: 'Bebas Neue', sans-serif; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .navbar { background: var(--dark); height: 64px; position: sticky; top: 0; z-index: 1000; display: flex; align-items: center; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; color: var(--beige); }
+    .logo-container { background: #fff; padding: 4px 8px; border-radius: 6px; color: #C9922A; font-weight: 900; font-family: 'Playfair Display'; }
+    /* Cart Layout */
+    .cart-page { padding: 60px 0; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+    .cart-header h1 { font-size: 36px; }
+    .back-link { color: var(--text-muted); font-weight: 600; font-size: 14px; }
+    .back-link:hover { color: var(--orange); }
+    .cart-grid { display: grid; grid-template-columns: 65% 33%; gap: 2%; align-items: start; }
+    /* Left Column */
+    .cart-items { display: flex; flex-direction: column; gap: 16px; }
+    .cart-item { background: var(--white); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 12px rgba(34,34,34,0.05); }
+    .item-art { width: 80px; height: 80px; border-radius: 8px; flex-shrink: 0; }
+    .item-details { flex-grow: 1; }
+    .item-details h3 { font-size: 18px; margin-bottom: 4px; }
+    .item-meta { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .item-controls { display: flex; align-items: center; gap: 12px; }
+    .qty-btn { width: 32px; height: 32px; background: var(--beige); color: var(--dark); border: none; border-radius: 4px; font-size: 18px; font-weight: bold; }
+    .qty-btn:hover { background: var(--orange); }
+    .qty-display { width: 40px; text-align: center; font-family: 'Bebas Neue'; font-size: 22px; }
+    .item-total { text-align: right; min-width: 100px; }
+    .item-total .price { font-family: 'Bebas Neue'; font-size: 24px; color: var(--orange); }
+    .remove-btn { background: none; border: none; color: var(--text-muted); font-size: 12px; margin-top: 8px; text-decoration: underline; }
+    .remove-btn:hover { color: red; }
+    /* Empty State */
+    .empty-cart { text-align: center; padding: 80px 20px; background: var(--white); border-radius: 12px; display: none; }
+    .empty-bowl { width: 120px; height: 60px; background: var(--beige); border-radius: 0 0 60px 60px; margin: 0 auto 24px; }
+    /* Right Column (Summary) */
+    .summary-card { background: var(--dark); color: var(--cream); padding: 32px; border-radius: 12px; position: sticky; top: 88px; }
+    .summary-card h2 { font-size: 20px; font-family: 'DM Sans'; letter-spacing: 0.1em; margin-bottom: 24px; border-bottom: 1px solid rgba(247,148,29,0.3); padding-bottom: 12px; }
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 15px; }
+    .summary-total { display: flex; justify-content: space-between; align-items: center; margin: 24px 0; border-top: 1px solid rgba(247,148,29,0.3); padding-top: 24px; }
+    .summary-total .total-price { font-family: 'Bebas Neue'; font-size: 36px; color: var(--orange); }
+    .btn-place-order { width: 100%; padding: 16px; background: var(--orange); color: var(--dark); font-weight: 700; font-size: 16px; border: none; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.2s; }
+    .btn-place-order:hover { background: #D97B0A; }
+    .btn-whatsapp { width: 100%; padding: 14px; background: #25D366; color: white; font-weight: 600; border: none; border-radius: 8px; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .trust-badges { margin-top: 24px; font-size: 13px; color: var(--beige); line-height: 1.8; }
+    /* Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 2000; }
+    .modal { background: var(--cream); padding: 40px; border-radius: 12px; width: 100%; max-width: 500px; text-align: center; }
+    .modal h2 { color: var(--dark); margin-bottom: 16px; }
+    /* Arts */
+    .art-bhujia { background: radial-gradient(ellipse at 40% 60%, #FDB562 0%, #D97B0A 50%, #6B2D00 100%); }
+    .art-mixture { background: conic-gradient(from 30deg at 50% 60%, #F7941D, #C0392B, #D97B0A, #8B6118, #F7941D); }
+    .art-chana { background: radial-gradient(circle at 50% 40%, #D4B896 0%, #8B7355 50%, #4A3728 100%); }
+    .art-bhakarwadi { background: linear-gradient(135deg, #FDB562 0%, #F7941D 40%, #8B4513 100%); }
+    .art-traditional { background: radial-gradient(ellipse at 30% 70%, #E8C49A 0%, #C0783A 60%, #6B2D00 100%); }
+    .art-papdi { background: linear-gradient(160deg, #F5DEB3 0%, #DEB887 50%, #C9922A 100%); }
+    .art-chips { background: radial-gradient(circle at 60% 40%, #FFE066 0%, #F7941D 50%, #8B4513 100%); }
+    .art-nuts { background: radial-gradient(circle at 50% 30%, #D4A96A 0%, #8B6118 60%, #3D1F00 100%); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <div class="logo-container">GF&B</div>
+      <div>Secure Checkout</div>
+    </div>
+  </nav>
+
+  <div class="cart-page container">
+    <div class="cart-header">
+      <a href="index.html" class="back-link">← Back to Shopping</a>
+      <h1 class="playfair">Your Cart (<span id="title-count">0</span>)</h1>
+    </div>
+
+    <div class="cart-grid">
+      <!-- Left Column -->
+      <div>
+        <div class="cart-items" id="cart-items-container"></div>
+        <div class="empty-cart" id="empty-state">
+          <div class="empty-bowl"></div>
+          <h2>Your cart is empty</h2>
+          <br>
+          <button class="btn-place-order" style="max-width: 200px;" onclick="window.location.href='index.html'">Shop Now</button>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div>
+        <div class="summary-card">
+          <h2>ORDER SUMMARY</h2>
+          <div id="summary-items"></div>
+          <div class="summary-row" style="margin-top: 24px;"><span>Subtotal</span><span id="summ-subtotal">₹0</span></div>
+          <div class="summary-row"><span>Delivery</span><span style="color:var(--orange);">FREE</span></div>
+          <div class="summary-total">
+            <span>TOTAL</span>
+            <span class="total-price" id="summ-total">₹0</span>
+          </div>
+          <button class="btn-place-order" id="btn-place-order">Place Order →</button>
+          <div style="text-align:center; margin: 16px 0; color:var(--text-muted);">── OR ──</div>
+          <button class="btn-whatsapp" id="btn-wa">Chat on WhatsApp</button>
+          <div class="trust-badges">
+            🔒 Secure & Trusted<br>📦 Available at Reliance Retail<br>✅ Hygienically Packed
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="order-modal">
+    <div class="modal">
+      <h2 class="playfair">Order Initiated!</h2>
+      <p style="margin-bottom: 24px; color:var(--text-muted);">Click below to send your order details via WhatsApp. Our team will confirm shortly.</p>
+      <a id="wa-link" href="#" target="_blank" style="display:block; padding:14px; background:#25D366; color:white; border-radius:8px; font-weight:bold; margin-bottom:16px;">Send WhatsApp Message</a>
+      <button onclick="document.getElementById('order-modal').style.display='none'" style="background:none; border:none; text-decoration:underline; color:var(--text-muted);">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function getCart() { return JSON.parse(localStorage.getItem('gfb_cart') || '[]'); }
+    function saveCart(cart) { localStorage.setItem('gfb_cart', JSON.stringify(cart)); renderCart(); }
+
+    window.updateQty = function(id, delta) {
+      const cart = getCart();
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty = Math.max(0, item.qty + delta);
+      if (item.qty === 0) cart.splice(cart.indexOf(item), 1);
+      saveCart(cart);
+    };
+
+    window.removeItem = function(id) {
+      saveCart(getCart().filter(i => i.id !== id));
+    };
+
+    function renderCart() {
+      const cart = getCart();
+      const container = document.getElementById('cart-items-container');
+      const emptyState = document.getElementById('empty-state');
+      const summItems = document.getElementById('summary-items');
+      
+      let totalQty = 0;
+      let totalPrice = 0;
+      container.innerHTML = '';
+      summItems.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.style.display = 'none';
+        emptyState.style.display = 'block';
+        document.getElementById('btn-place-order').disabled = true;
+      } else {
+        container.style.display = 'flex';
+        emptyState.style.display = 'none';
+        document.getElementById('btn-place-order').disabled = false;
+
+        cart.forEach(item => {
+          totalQty += item.qty;
+          const lineTotal = item.qty * item.price;
+          totalPrice += lineTotal;
+
+          // Cart Item Row
+          container.innerHTML += `
+            <div class="cart-item">
+              <div class="item-art \\${item.art}"></div>
+              <div class="item-details">
+                <h3 class="playfair"\\${item.name}</h3>
+                <div class="item-meta">Category: \\${item.category}<br>Size: \\${item.size} • ₹\\${item.price} each</div>
+              </div>
+              <div class="item-controls">
+                <button class="qty-btn" onclick="updateQty('\\${item.id}', -1)">−</button>
+                <div class="qty-display">\\${item.qty}</div>
+                <button class="qty-btn" onclick="updateQty('\\${item.id}', 1)">+</button>
+              </div>
+              <div class="item-total">
+                <div class="price">₹\\${lineTotal}</div>
+                <button class="remove-btn" onclick="removeItem('\\${item.id}')">🗑 Remove</button>
+              </div>
+            </div>`;
+
+          // Summary Row
+          summItems.innerHTML += `
+            <div class="summary-row" style="color:var(--beige);">
+              <span>\\${item.name} (\\${item.size}) × \\${item.qty}</span>
+              <span>₹\\${lineTotal}</span>
+            </div>`;
+        });
+      }
+
+      document.getElementById('title-count').textContent = totalQty;
+      document.getElementById('summ-subtotal').textContent = `₹\\${totalPrice}`;
+      document.getElementById('summ-total').textContent = `₹\\${totalPrice}`;
+    }
+
+    function initOrder() {
+      const cart = getCart();
+      if (cart.length === 0) return;
+      
+      let msg = 'Hello! I would like to place an order for:\n\n';
+      cart.forEach(item => { msg += `• \\${item.name} (\\${item.size}) × \\${item.qty} = ₹\\${item.price * item.qty}\n`; });
+      msg += `\nTotal: ₹\\${cart.reduce((s, i) => s + i.price * i.qty, 0)}`;
+      
+      document.getElementById('wa-link').href = `https://wa.me/919999999999?text=${encodeURIComponent(msg)}`;
+      document.getElementById('order-modal').style.display = 'flex';
+    }
+
+    document.getElementById('btn-place-order').addEventListener('click', initOrder);
+    document.getElementById('btn-wa').addEventListener('click', initOrder);
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+  </script>
+</body>
+</html>

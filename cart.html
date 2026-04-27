@@ -170,34 +170,34 @@
           // Cart Item Row
           container.innerHTML += `
             <div class="cart-item">
-              <div class="item-art \\${item.art}"></div>
+              <div class="item-art ${item.art}"></div>
               <div class="item-details">
-                <h3 class="playfair"\\${item.name}</h3>
-                <div class="item-meta">Category: \\${item.category}<br>Size: \\${item.size} • ₹\\${item.price} each</div>
+                <h3 class="playfair">${item.name}</h3>
+                <div class="item-meta">Category: ${item.category}<br>Size: ${item.size} • ₹${item.price} each</div>
               </div>
               <div class="item-controls">
-                <button class="qty-btn" onclick="updateQty('\\${item.id}', -1)">−</button>
-                <div class="qty-display">\\${item.qty}</div>
-                <button class="qty-btn" onclick="updateQty('\\${item.id}', 1)">+</button>
+                <button class="qty-btn" onclick="updateQty('${item.id}', -1)">−</button>
+                <div class="qty-display">${item.qty}</div>
+                <button class="qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
               </div>
               <div class="item-total">
-                <div class="price">₹\\${lineTotal}</div>
-                <button class="remove-btn" onclick="removeItem('\\${item.id}')">🗑 Remove</button>
+                <div class="price">₹${lineTotal}</div>
+                <button class="remove-btn" onclick="removeItem('${item.id}')">🗑 Remove</button>
               </div>
             </div>`;
 
           // Summary Row
           summItems.innerHTML += `
             <div class="summary-row" style="color:var(--beige);">
-              <span>\\${item.name} (\\${item.size}) × \\${item.qty}</span>
-              <span>₹\\${lineTotal}</span>
+              <span>${item.name} (${item.size}) × ${item.qty}</span>
+              <span>₹${lineTotal}</span>
             </div>`;
         });
       }
 
       document.getElementById('title-count').textContent = totalQty;
-      document.getElementById('summ-subtotal').textContent = `₹\\${totalPrice}`;
-      document.getElementById('summ-total').textContent = `₹\\${totalPrice}`;
+      document.getElementById('summ-subtotal').textContent = `₹${totalPrice}`;
+      document.getElementById('summ-total').textContent = `₹${totalPrice}`;
     }
 
     function initOrder() {
@@ -205,8 +205,8 @@
       if (cart.length === 0) return;
       
       let msg = 'Hello! I would like to place an order for:\n\n';
-      cart.forEach(item => { msg += `• \\${item.name} (\\${item.size}) × \\${item.qty} = ₹\\${item.price * item.qty}\n`; });
-      msg += `\nTotal: ₹\\${cart.reduce((s, i) => s + i.price * i.qty, 0)}`;
+      cart.forEach(item => { msg += `• ${item.name} (${item.size}) × ${item.qty} = ₹${item.price * item.qty}\n`; });
+      msg += `\nTotal: ₹${cart.reduce((s, i) => s + i.price * i.qty, 0)}`;
       
       document.getElementById('wa-link').href = `https://wa.me/919999999999?text=${encodeURIComponent(msg)}`;
       document.getElementById('order-modal').style.display = 'flex';

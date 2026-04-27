@@ -830,7 +830,7 @@
       sizesContainer.innerHTML = '';
       sizesArr.forEach((s, i) => {
         const pill = document.createElement('div');
-        pill.className = `detail-size-pill ${i===0?'active':''}`;
+        pill.className = `detail-size-pill ${i === 0 ? 'active' : ''}`;
         pill.dataset.size = s;
         pill.dataset.price = p.sizes[s];
         pill.innerHTML = `<div class="ds-label">${s}</div><div class="ds-price">₹${p.sizes[s]}</div>`;

@@ -151,15 +151,204 @@
     .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--orange); }
     .form-group textarea { resize: vertical; min-height: 120px; }
     .form-group select option { background: var(--dark); }
+
+    /* ── LOGO + MENU TRIGGER ───────────────────────────────── */
+    .logo-trigger {
+      display: flex; flex-direction: column; align-items: center;
+      cursor: pointer; user-select: none; gap: 4px;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      transform-origin: center center;
+    }
+    .logo-trigger.hiding {
+      animation: logoSpin 0.55s cubic-bezier(0.4,0,0.6,1) forwards;
+    }
+    @keyframes logoSpin {
+      0%   { transform: rotate(0deg);   opacity: 1; }
+      100% { transform: rotate(270deg); opacity: 0; }
+    }
+    .logo-svg-wrap {
+      display: flex; align-items: center; justify-content: center;
+      animation: logo3DFloat 3.5s ease-in-out infinite;
+      filter: drop-shadow(0 6px 18px rgba(247,148,29,0.45));
+    }
+    @keyframes logo3DFloat {
+      0%,100% { transform: perspective(500px) rotateY(-6deg) translateY(0px); }
+      50%      { transform: perspective(500px) rotateY(6deg)  translateY(-5px); }
+    }
+    .menu-label {
+      font-family: 'DM Sans', sans-serif; font-weight: 800;
+      font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--orange); line-height: 1;
+    }
+
+    /* ── SIDEBAR ───────────────────────────────────────────── */
+    #sidebar-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+      z-index: 9990; display: none; opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    #sidebar-overlay.open { display: block; opacity: 1; }
+    #sidebar {
+      position: fixed; top: 0; left: -320px; width: 300px; height: 100vh;
+      background: var(--white); z-index: 9995;
+      transition: left 0.38s cubic-bezier(0.4,0,0.2,1);
+      overflow-y: auto; box-shadow: 4px 0 30px rgba(0,0,0,0.18);
+      display: flex; flex-direction: column;
+    }
+    #sidebar.open { left: 0; }
+    .sidebar-head {
+      background: var(--dark); padding: 18px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 3px solid var(--orange);
+    }
+    .sidebar-head-logo { height: 40px; }
+    .sidebar-close {
+      background: none; border: none; color: var(--beige);
+      font-size: 24px; line-height: 1; padding: 0; cursor: pointer;
+    }
+    .sidebar-section-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text-muted);
+      padding: 20px 20px 8px; border-bottom: 1px solid var(--beige);
+    }
+    .sidebar-cat-item { border-bottom: 1px solid rgba(237,224,196,0.5); }
+    .sidebar-cat-btn {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; background: none; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+      color: var(--text-main); text-align: left; transition: background 0.2s;
+    }
+    .sidebar-cat-btn:hover { background: rgba(247,148,29,0.08); }
+    .sidebar-cat-btn .arrow {
+      transition: transform 0.3s; font-size: 12px; color: var(--orange);
+    }
+    .sidebar-cat-item.expanded .arrow { transform: rotate(180deg); }
+    .sidebar-sublist {
+      display: none; background: #FAF5EB; padding: 6px 0;
+    }
+    .sidebar-cat-item.expanded .sidebar-sublist { display: block; }
+    .sidebar-sub-link {
+      display: block; padding: 9px 20px 9px 36px;
+      font-size: 14px; color: var(--text-muted); cursor: pointer;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .sidebar-sub-link:hover { color: var(--orange); padding-left: 42px; }
+    .sidebar-all-btn {
+      margin: 20px; padding: 13px; background: var(--orange); color: var(--dark);
+      font-weight: 700; font-size: 14px; text-transform: uppercase;
+      letter-spacing: 0.1em; border: none; border-radius: 6px; cursor: pointer;
+    }
+    .sidebar-all-btn:hover { background: var(--orange-dark); }
+
+    /* ── VIEW MORE ─────────────────────────────────────────── */
+    #view-more-container {
+      text-align: center; padding: 36px 0 8px; display: none;
+    }
+    #view-more-btn {
+      padding: 13px 44px; background: transparent;
+      border: 2px solid var(--orange); color: var(--orange);
+      font-weight: 700; font-size: 15px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      cursor: pointer; transition: 0.2s;
+    }
+    #view-more-btn:hover { background: var(--orange); color: var(--dark); }
+    .product-card.limit-hidden { display: none !important; }
+
+    /* ── PRODUCT DETAIL OVERLAY ────────────────────────────── */
+    #product-detail {
+      position: fixed; inset: 0; background: var(--cream);
+      z-index: 9998; display: none; overflow-y: auto;
+      animation: detailFadeIn 0.3s ease;
+    }
+    #product-detail.visible { display: block; }
+    @keyframes detailFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .detail-nav {
+      background: var(--dark); height: 60px; display: flex; align-items: center;
+      padding: 0 24px; position: sticky; top: 0; z-index: 10;
+      border-bottom: 3px solid var(--orange);
+    }
+    .detail-back {
+      background: none; border: none; color: var(--beige);
+      font-size: 15px; font-weight: 600; cursor: pointer; display: flex;
+      align-items: center; gap: 8px;
+    }
+    .detail-back:hover { color: var(--orange); }
+    .detail-body {
+      max-width: 1000px; margin: 0 auto; padding: 48px 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+    }
+    .detail-art-wrap {
+      border-radius: 16px; overflow: hidden; height: 380px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    .detail-art-bg {
+      width: 100%; height: 100%; display: flex; align-items: center;
+      justify-content: center; font-size: 80px;
+    }
+    .detail-cat-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .detail-cat { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .detail-name { font-size: 36px; font-weight: 900; color: var(--dark); line-height: 1.15; margin-bottom: 12px; }
+    .detail-desc { color: var(--text-muted); font-size: 15px; line-height: 1.75; margin-bottom: 28px; }
+    .detail-size-title { font-size: 12px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px; }
+    .detail-sizes { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+    .detail-size-pill {
+      border: 2px solid var(--beige); border-radius: 8px; padding: 10px 18px;
+      cursor: pointer; transition: 0.2s; text-align: center; min-width: 90px;
+    }
+    .detail-size-pill.active { border-color: var(--orange); background: rgba(247,148,29,0.1); }
+    .detail-size-pill .ds-label { font-size: 13px; font-weight: 700; color: var(--dark); }
+    .detail-size-pill .ds-price { font-family: 'Bebas Neue'; font-size: 20px; color: var(--text-muted); margin-top: 2px; }
+    .detail-size-pill.active .ds-price { color: var(--orange); }
+    .detail-price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px; }
+    .detail-price { font-family: 'Bebas Neue'; font-size: 52px; color: var(--orange); line-height: 1; }
+    .detail-price-note { font-size: 13px; color: var(--text-muted); }
+    .detail-add-btn {
+      width: 100%; padding: 16px; background: var(--orange); color: var(--dark);
+      font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 0.1em;
+      border: none; border-radius: 8px; cursor: pointer; transition: 0.2s;
+      margin-bottom: 16px;
+    }
+    .detail-add-btn:hover { background: var(--orange-dark); }
+    .detail-add-btn:active { transform: scale(0.98); }
+    .detail-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .detail-badge { padding: 6px 14px; background: var(--beige); border-radius: 100px; font-size: 12px; color: var(--text-muted); font-weight: 600; }
+    @media (max-width: 720px) {
+      .detail-body { grid-template-columns: 1fr; gap: 32px; padding: 24px 16px; }
+      .detail-art-wrap { height: 240px; }
+      .detail-name { font-size: 28px; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- SIDEBAR OVERLAY -->
+  <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sidebar-head">
+      <img src="logo.svg" alt="GF&B Logo" class="sidebar-head-logo">
+      <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">✕</button>
+    </div>
+    <div class="sidebar-section-title">Browse Categories</div>
+    <div id="sidebar-categories">
+      <!-- Injected by JS -->
+    </div>
+    <button class="sidebar-all-btn" onclick="sidebarFilter('all')">View All Products</button>
+  </div>
+
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="container nav-inner">
-      <div class="logo-container">
-        <img src="logo.png" height="46" width="90" alt="GF&B Logo">
+      <div id="logo-trigger" class="logo-trigger" onclick="toggleSidebar()" title="Open menu">
+        <div class="logo-svg-wrap">
+          <img src="logo.svg" height="44" alt="GF&B Logo">
+        </div>
+        <span class="menu-label">Menu</span>
       </div>
       <div class="nav-links hide-mobile">
         <a href="#">Home</a><a href="#catalog">Products</a><a href="#about">Our Story</a><a href="#contact">Contact</a>
@@ -236,6 +425,9 @@
       <!-- Products injected via JS -->
     </div>
     <div id="no-results" style="display:none; text-align:center; padding: 40px; color: var(--text-muted);">No products found matching your criteria.</div>
+    <div id="view-more-container">
+      <button id="view-more-btn" onclick="showAllProductsNow()">View More Products →</button>
+    </div>
   </section>
 
   <!-- PACK SIZE GUIDE -->
@@ -360,45 +552,157 @@
     </div>
   </footer>
 
+  <!-- PRODUCT DETAIL OVERLAY -->
+  <div id="product-detail">
+    <nav class="detail-nav">
+      <button class="detail-back" onclick="closeProductDetail()">← Back to Products</button>
+    </nav>
+    <div class="detail-body">
+      <div class="detail-art-wrap">
+        <div class="detail-art-bg" id="detail-art"></div>
+      </div>
+      <div>
+        <div class="detail-cat-row">
+          <span class="detail-cat" id="detail-cat"></span>
+          <span class="spice-badge" id="detail-spice"></span>
+        </div>
+        <h1 class="detail-name playfair" id="detail-name"></h1>
+        <p class="detail-desc" id="detail-desc"></p>
+        <div class="detail-size-title">Select Pack Size</div>
+        <div class="detail-sizes" id="detail-sizes"></div>
+        <div class="detail-price-row">
+          <span class="detail-price bebas" id="detail-price">₹0</span>
+          <span class="detail-price-note">incl. all taxes</span>
+        </div>
+        <button class="detail-add-btn" id="detail-add-btn">🛒 Add to Cart</button>
+        <div class="detail-badges">
+          <span class="detail-badge">✅ Hygienically Packed</span>
+          <span class="detail-badge">🏪 At Reliance Retail</span>
+          <span class="detail-badge">🌾 Authentic Recipe</span>
+          <span class="detail-badge">📦 Free Delivery</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // PRODUCT DATA (All 55 SKUs as requested, mapped to standard sizes & art)
+    // PRODUCT DATA
     const products = [
       // Bhujia & Sev
-      { name: "Aloo Bhujia", cat: "Bhujia & Sev", spice: "Medium", art: "art-bhujia", sizes: { "400gm": 242, "285gm": 186 } },
-      { name: "Arabpati Bhujia", cat: "Bhujia & Sev", spice: "Medium", art: "art-bhujia", sizes: { "400gm": 242, "285gm": 186 } },
-      { name: "Bikaneri Bhujia", cat: "Bhujia & Sev", spice: "Hot", art: "art-bhujia", sizes: { "400gm": 242, "285gm": 186 } },
-      { name: "Marwari Bhujia", cat: "Bhujia & Sev", spice: "Medium", art: "art-bhujia", sizes: { "400gm": 242, "285gm": 186 } },
-      { name: "Paneer Bhujia", cat: "Bhujia & Sev", spice: "Mild", art: "art-bhujia", sizes: { "400gm": 242, "285gm": 186 } },
-      { name: "Nylon Sev", cat: "Bhujia & Sev", spice: "Mild", art: "art-bhujia", sizes: { "400gm": 242, "285gm": 186 } },
-      // Mixtures (Sampled for brevity in code snippet, algorithm applies to all 15)
-      { name: "Bengali Mixture", cat: "Mixtures & Chakna", spice: "Medium", art: "art-mixture", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
-      { name: "Chatpata Mixture", cat: "Mixtures & Chakna", spice: "Hot", art: "art-mixture", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
-      { name: "Chiwda (Masala)", cat: "Mixtures & Chakna", spice: "Medium", art: "art-mixture", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
+      { name: "Aloo Bhujia",      cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "Crispy golden potato noodles seasoned with a perfect blend of Indian spices. Our Aloo Bhujia is a classic tea-time favourite made from potato flour — light, crunchy and full of flavour." },
+      { name: "Arabpati Bhujia",  cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "Delicately thin sev crafted with aromatic spices. Arabpati Bhujia has a unique texture that melts on the tongue, delivering a burst of authentic Rajasthani flavour in every bite." },
+      { name: "Bikaneri Bhujia",  cat: "Bhujia & Sev",       spice: "Hot",    art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "The original Bikaner specialty — made from moth dal and a secret spice blend passed down through generations. Bold, hot, and irresistibly crunchy. A true icon of Indian snacking." },
+      { name: "Marwari Bhujia",   cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "A Marwari kitchen staple with a rich, spiced flavour profile. Made with gram flour and hand-selected spices, this bhujia pairs perfectly with chai or as a chaat topping." },
+      { name: "Paneer Bhujia",    cat: "Bhujia & Sev",       spice: "Mild",   art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "A mildly spiced bhujia variant enriched with paneer notes. Creamy in flavour yet crispy in texture — a crowd-pleaser for those who prefer a gentler heat." },
+      { name: "Nylon Sev",        cat: "Bhujia & Sev",       spice: "Mild",   art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "Ultra-fine, hair-thin sev with a delicate crunch. Our Nylon Sev dissolves instantly on the palate, making it the perfect garnish for bhel puri, dahi puri, and all your favourite chaats." },
+      // Mixtures
+      { name: "Bengali Mixture",  cat: "Mixtures & Chakna",  spice: "Medium", art: "art-mixture",     sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "A delightful medley inspired by Kolkata's snack culture. With a sweet-spicy balance of sev, peanuts, and flattened rice, every handful is a celebration of flavour." },
+      { name: "Chatpata Mixture", cat: "Mixtures & Chakna",  spice: "Hot",    art: "art-mixture",     sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "An explosion of tangy, hot and savoury flavours. Our Chatpata Mixture combines crunchy sev, roasted nuts, and spiced rice flakes for the ultimate party snack." },
+      { name: "Chiwda (Masala)",  cat: "Mixtures & Chakna",  spice: "Medium", art: "art-mixture",     sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "Light and crispy flattened rice tossed with aromatic masala, curry leaves, and roasted peanuts. A Maharashtrian classic that is impossible to put down." },
       // Chana & Dal
-      { name: "Bhuna Chana", cat: "Chana & Dal", spice: "Medium", art: "art-chana", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
-      { name: "Chana Dal", cat: "Chana & Dal", spice: "Mild", art: "art-chana", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
+      { name: "Bhuna Chana",      cat: "Chana & Dal",        spice: "Medium", art: "art-chana",       sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "Slow-roasted whole chickpeas with a smoky, earthy spice coat. Protein-rich and satisfying, Bhuna Chana is the guilt-free snack for every health-conscious foodie." },
+      { name: "Chana Dal",        cat: "Chana & Dal",        spice: "Mild",   art: "art-chana",       sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "Split gram lentils fried to a golden crisp and seasoned with mild spices. Nutritious, crunchy, and deeply satisfying — a time-honoured Indian snack staple." },
       // Bhakarwadi
-      { name: "Bhakarwadi", cat: "Bhakarwadi", spice: "Medium", art: "art-bhakarwadi", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
-      { name: "Garlic Bhakarwadi", cat: "Bhakarwadi", spice: "Hot", art: "art-bhakarwadi", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
+      { name: "Bhakarwadi",       cat: "Bhakarwadi",         spice: "Medium", art: "art-bhakarwadi",  sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "Punekar pride on your palate! Concentric layers of spiced flour are rolled, fried and sliced to reveal a beautiful swirl. Sweet, tangy and spicy in every bite." },
+      { name: "Garlic Bhakarwadi",cat: "Bhakarwadi",         spice: "Hot",    art: "art-bhakarwadi",  sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "All the charm of classic Bhakarwadi, now elevated with pungent roasted garlic and bold red chillies. A grown-up twist on a beloved classic — addictively hot." },
       // Traditional
-      { name: "Jhal Muri", cat: "Traditional", spice: "Tangy", art: "art-traditional", sizes: { "400gm": 224, "250gm": 132 } },
-      { name: "Boondi (Masala)", cat: "Traditional", spice: "Hot", art: "art-traditional", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
-      // Papdi & Chips
-      { name: "Onion Mathri", cat: "Papdi & Mathri", spice: "Medium", art: "art-papdi", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } },
-      { name: "Banana Chips (Red Masala)", cat: "Chips", spice: "Hot", art: "art-chips", sizes: { "150gm": 169 } },
+      { name: "Jhal Muri",        cat: "Traditional",        spice: "Tangy",  art: "art-traditional", sizes: { "400gm": 224, "250gm": 132 }, desc: "Kolkata's legendary street snack in a convenient pack. Puffed rice tossed with mustard oil, green chillies, and a mix of spiced ingredients — tangy, spicy and utterly moreish." },
+      { name: "Boondi (Masala)",  cat: "Traditional",        spice: "Hot",    art: "art-traditional", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "Tiny spheres of gram flour, fried to a perfect crunch and coated in fiery masala. Our Masala Boondi is a versatile snack — eat it plain, mix it in raita, or use it as a chaat topping." },
+      // Papdi & Mathri
+      { name: "Onion Mathri",     cat: "Papdi & Mathri",     spice: "Medium", art: "art-papdi",       sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "Flaky, buttery mathri studded with dried onion and aromatic spices. Baked to a golden crisp, these are perfect with a cup of masala chai on a rainy afternoon." },
+      // Chips
+      { name: "Banana Chips (Red Masala)", cat: "Chips",     spice: "Hot",    art: "art-chips",       sizes: { "150gm": 169 }, desc: "Thick-cut raw banana slices fried to a golden crunch and tossed in vibrant red masala. A South Indian favourite that packs a punch — crispy, spicy and utterly addictive." },
       // Nuts
-      { name: "Spicy Peanuts", cat: "Nuts", spice: "Hot", art: "art-nuts", sizes: { "400gm": 242, "285gm": 186, "200gm": 122 } }
-    ]; // (Array truncated to fit context window, loop generates standard cards)
+      { name: "Spicy Peanuts",    cat: "Nuts",               spice: "Hot",    art: "art-nuts",        sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "Whole peanuts roasted with a thick coat of fiery chilli and tangy spices. High in protein, big on flavour — the perfect companion for evening drinks or sports viewing." }
+    ];
 
     const grid = document.getElementById('product-grid');
-    
+    let showAllProducts = false;
+
+    // ── SIDEBAR CATEGORIES ───────────────────────────────────
+    const sidebarCategories = {
+      "Namkeen & Bhujia":  ["Bhujia & Sev"],
+      "Mixtures & Chakna": ["Mixtures & Chakna"],
+      "Chana & Dal":       ["Chana & Dal"],
+      "Bhakarwadi":        ["Bhakarwadi"],
+      "Traditional":       ["Traditional"],
+      "Papdi & Mathri":    ["Papdi & Mathri"],
+      "Chips":             ["Chips"],
+      "Nuts":              ["Nuts"]
+    };
+
+    function buildSidebar() {
+      const container = document.getElementById('sidebar-categories');
+      container.innerHTML = '';
+      Object.entries(sidebarCategories).forEach(([group, cats]) => {
+        const item = document.createElement('div');
+        item.className = 'sidebar-cat-item';
+        item.innerHTML = `
+          <button class="sidebar-cat-btn" onclick="toggleSidebarCat(this)">
+            <span>${group}</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="sidebar-sublist">
+            ${cats.map(c => `<div class="sidebar-sub-link" onclick="sidebarFilter('${c}')">${c}</div>`).join('')}
+          </div>`;
+        container.appendChild(item);
+      });
+    }
+
+    function toggleSidebarCat(btn) {
+      btn.closest('.sidebar-cat-item').classList.toggle('expanded');
+    }
+
+    function sidebarFilter(cat) {
+      closeSidebar();
+      // Activate matching cat-tab
+      document.querySelectorAll('.cat-tab').forEach(t => {
+        t.classList.toggle('active', (cat === 'all' && t.dataset.cat === 'all') || t.dataset.cat === cat);
+      });
+      showAllProducts = false;
+      applyFilters();
+      setTimeout(() => document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' }), 350);
+    }
+
+    // ── SIDEBAR OPEN/CLOSE ───────────────────────────────────
+    function toggleSidebar() {
+      const overlay = document.getElementById('sidebar-overlay');
+      const sidebar = document.getElementById('sidebar');
+      const trigger = document.getElementById('logo-trigger');
+
+      if (sidebar.classList.contains('open')) {
+        closeSidebar();
+      } else {
+        // Animate logo+menu out
+        trigger.classList.add('hiding');
+        setTimeout(() => {
+          trigger.classList.remove('hiding');
+          trigger.style.opacity = '0';
+        }, 550);
+
+        overlay.classList.add('open');
+        sidebar.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar-overlay').classList.remove('open');
+      document.getElementById('sidebar').classList.remove('open');
+      document.body.style.overflow = '';
+      // Restore logo
+      const trigger = document.getElementById('logo-trigger');
+      trigger.style.opacity = '1';
+    }
+
+    // ── RENDER PRODUCTS ──────────────────────────────────────
     function renderProducts() {
       grid.innerHTML = '';
-      products.forEach((p, idx) => {
+      products.forEach((p) => {
         const sizesArr = Object.keys(p.sizes);
         const defaultSize = sizesArr[0];
         const defaultPrice = p.sizes[defaultSize];
-        
+
         let sizePillsHtml = '';
         sizesArr.forEach((s, i) => {
           sizePillsHtml += `
@@ -415,15 +719,17 @@
         card.dataset.sizes = JSON.stringify(sizesArr);
         card.dataset.selectedSize = defaultSize;
         card.dataset.selectedPrice = defaultPrice;
-        
+        card.dataset.productIndex = products.indexOf(p);
+        card.style.cursor = 'pointer';
+
         card.innerHTML = `
-          <div class="card-art ${p.art}"></div>
+          <div class="card-art ${p.art}" onclick="openProductDetail(${products.indexOf(p)})"></div>
           <div class="card-content">
             <div class="card-header">
               <span class="cat-badge">${p.cat}</span>
               <span class="spice-badge ${p.spice}">${p.spice}</span>
             </div>
-            <h3 class="playfair">${p.name}</h3>
+            <h3 class="playfair" style="cursor:pointer" onclick="openProductDetail(${products.indexOf(p)})">${p.name}</h3>
             <div style="font-size:10px; color:var(--text-muted); margin-top:12px; text-transform:uppercase;">Select Size</div>
             <div class="sizes-grid">${sizePillsHtml}</div>
             <button class="add-to-cart" onclick="addToCart(this, '${p.name}', '${p.cat}', '${p.art}')">🛒 ADD TO CART — ₹${defaultPrice}</button>
@@ -432,6 +738,59 @@
         grid.appendChild(card);
       });
       attachSizePillEvents();
+      applyViewLimit();
+    }
+
+    // ── VIEW LIMIT ───────────────────────────────────────────
+    function applyViewLimit() {
+      // Reset any previous limit-hidden state
+      document.querySelectorAll('.product-card.limit-hidden').forEach(c => c.classList.remove('limit-hidden'));
+
+      if (showAllProducts) {
+        document.getElementById('view-more-container').style.display = 'none';
+        return;
+      }
+
+      let visibleCount = 0;
+      let hiddenCount = 0;
+      document.querySelectorAll('.product-card').forEach(card => {
+        if (card.style.display === 'none') return; // already hidden by filter
+        visibleCount++;
+        if (visibleCount > 8) {
+          card.classList.add('limit-hidden');
+          hiddenCount++;
+        }
+      });
+
+      const vmContainer = document.getElementById('view-more-container');
+      vmContainer.style.display = hiddenCount > 0 ? 'block' : 'none';
+      if (hiddenCount > 0) {
+        document.getElementById('view-more-btn').textContent = `View ${hiddenCount} More Products →`;
+      }
+    }
+
+    function showAllProductsNow() {
+      showAllProducts = true;
+      document.querySelectorAll('.product-card.limit-hidden').forEach(c => c.classList.remove('limit-hidden'));
+      document.getElementById('view-more-container').style.display = 'none';
+    }
+
+    // ── FILTER HELPERS ───────────────────────────────────────
+    let activeCat  = 'all';
+    let activeSize = 'all';
+    let activeSearch = '';
+
+    function applyFilters() {
+      document.querySelectorAll('.product-card').forEach(card => {
+        const catMatch  = activeCat === 'all' || card.dataset.category === activeCat;
+        const sizeMatch = activeSize === 'all' || JSON.parse(card.dataset.sizes || '[]').includes(activeSize);
+        const searchMatch = card.dataset.name.toLowerCase().includes(activeSearch) ||
+                            card.dataset.category.toLowerCase().includes(activeSearch);
+        card.style.display = (catMatch && sizeMatch && searchMatch) ? 'block' : 'none';
+      });
+      const anyVisible = [...document.querySelectorAll('.product-card')].some(c => c.style.display !== 'none');
+      document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+      applyViewLimit();
     }
 
     function attachSizePillEvents() {
@@ -440,19 +799,77 @@
           const card = this.closest('.product-card');
           card.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
           this.classList.add('active');
-          const size = this.dataset.size;
-          const price = this.dataset.price;
-          card.dataset.selectedSize = size;
-          card.dataset.selectedPrice = price;
-          card.querySelector('.add-to-cart').textContent = `🛒 ADD TO CART — ₹${price}`;
+          card.dataset.selectedSize = this.dataset.size;
+          card.dataset.selectedPrice = this.dataset.price;
+          card.querySelector('.add-to-cart').textContent = `🛒 ADD TO CART — ₹${this.dataset.price}`;
         });
       });
     }
 
-    // Cart Logic
+    // ── PRODUCT DETAIL ───────────────────────────────────────
+    let detailProduct = null;
+    let detailSelectedSize = null;
+
+    function openProductDetail(idx) {
+      const p = products[idx];
+      detailProduct = p;
+      const sizesArr = Object.keys(p.sizes);
+      detailSelectedSize = sizesArr[0];
+
+      document.getElementById('detail-art').className = `detail-art-bg ${p.art}`;
+      document.getElementById('detail-cat').textContent  = p.cat;
+      const spiceBadge = document.getElementById('detail-spice');
+      spiceBadge.textContent = p.spice;
+      spiceBadge.className = `spice-badge ${p.spice}`;
+      document.getElementById('detail-name').textContent = p.name;
+      document.getElementById('detail-desc').textContent = p.desc || 'A premium Indian snack crafted with the finest ingredients and time-honoured recipes.';
+      document.getElementById('detail-price').textContent = `₹${p.sizes[detailSelectedSize]}`;
+
+      // Size pills
+      const sizesContainer = document.getElementById('detail-sizes');
+      sizesContainer.innerHTML = '';
+      sizesArr.forEach((s, i) => {
+        const pill = document.createElement('div');
+        pill.className = `detail-size-pill ${i === 0 ? 'active' : ''}`;
+        pill.dataset.size = s;
+        pill.dataset.price = p.sizes[s];
+        pill.innerHTML = `<div class="ds-label">${s}</div><div class="ds-price">₹${p.sizes[s]}</div>`;
+        pill.addEventListener('click', function() {
+          sizesContainer.querySelectorAll('.detail-size-pill').forEach(el => el.classList.remove('active'));
+          this.classList.add('active');
+          detailSelectedSize = this.dataset.size;
+          document.getElementById('detail-price').textContent = `₹${this.dataset.price}`;
+          document.getElementById('detail-add-btn').textContent = `🛒 Add to Cart — ₹${this.dataset.price}`;
+        });
+        sizesContainer.appendChild(pill);
+      });
+
+      document.getElementById('detail-add-btn').textContent = `🛒 Add to Cart — ₹${p.sizes[detailSelectedSize]}`;
+      document.getElementById('detail-add-btn').onclick = function() {
+        const cart = getCart();
+        const id = `${p.name}_${detailSelectedSize}`.toLowerCase().replace(/\s+/g, '_');
+        const existing = cart.find(i => i.id === id);
+        if (existing) { existing.qty += 1; }
+        else { cart.push({ id, name: p.name, category: p.cat, size: detailSelectedSize, price: p.sizes[detailSelectedSize], qty: 1, art: p.art }); }
+        saveCart(cart);
+        showToast(`${p.name} (${detailSelectedSize}) added to cart!`);
+      };
+
+      const overlay = document.getElementById('product-detail');
+      overlay.classList.add('visible');
+      overlay.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProductDetail() {
+      document.getElementById('product-detail').classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    // ── CART LOGIC ───────────────────────────────────────────
     function getCart() { return JSON.parse(localStorage.getItem('gfb_cart') || '[]'); }
     function saveCart(cart) { localStorage.setItem('gfb_cart', JSON.stringify(cart)); updateCartBadge(); }
-    
+
     function updateCartBadge() {
       const cart = getCart();
       const total = cart.reduce((sum, i) => sum + i.qty, 0);
@@ -467,14 +884,12 @@
       const price = parseInt(card.dataset.selectedPrice);
       const cart = getCart();
       const id = `${name}_${size}`.toLowerCase().replace(/\s+/g, '_');
-      
       const existing = cart.find(i => i.id === id);
-      if (existing) { existing.qty += 1; } 
+      if (existing) { existing.qty += 1; }
       else { cart.push({ id, name, category: cat, size, price, qty: 1, art }); }
-      
       saveCart(cart);
       showToast(`${name} (${size}) added to cart!`);
-    }
+    };
 
     function showToast(msg) {
       const toast = document.createElement('div');
@@ -485,24 +900,20 @@
       setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
     }
 
-    // Filtering
+    // ── FILTER EVENTS ────────────────────────────────────────
     document.getElementById('search-input').addEventListener('input', function() {
-      const query = this.value.toLowerCase().trim();
-      document.querySelectorAll('.product-card').forEach(card => {
-        const match = card.dataset.name.toLowerCase().includes(query) || card.dataset.category.toLowerCase().includes(query);
-        card.style.display = match ? 'block' : 'none';
-      });
+      activeSearch = this.value.toLowerCase().trim();
+      showAllProducts = false;
+      applyFilters();
     });
 
     document.querySelectorAll('.cat-tab').forEach(tab => {
       tab.addEventListener('click', function() {
         document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
         this.classList.add('active');
-        const cat = this.dataset.cat;
-        document.querySelectorAll('.product-card').forEach(card => {
-          const show = cat === 'all' || card.dataset.category === cat;
-          card.style.display = show ? 'block' : 'none';
-        });
+        activeCat = this.dataset.cat;
+        showAllProducts = false;
+        applyFilters();
       });
     });
 
@@ -510,16 +921,13 @@
       pill.addEventListener('click', function() {
         document.querySelectorAll('.size-filter-pill').forEach(p => p.classList.remove('active'));
         this.classList.add('active');
-        const size = this.dataset.size;
-        document.querySelectorAll('.product-card').forEach(card => {
-          if (size === 'all') { card.style.display = 'block'; return; }
-          const hasSizes = JSON.parse(card.dataset.sizes || '[]');
-          card.style.display = hasSizes.includes(size) ? 'block' : 'none';
-        });
+        activeSize = this.dataset.size;
+        showAllProducts = false;
+        applyFilters();
       });
     });
 
-    // Scroll Observer
+    // ── SCROLL OBSERVER ──────────────────────────────────────
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
@@ -529,10 +937,14 @@
       });
     }, { threshold: 0.1 });
 
-    // Init
+    // ── INIT ─────────────────────────────────────────────────
+    buildSidebar();
     renderProducts();
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     updateCartBadge();
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
   </script>
 </body>
 </html>

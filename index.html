@@ -76,7 +76,8 @@
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
     .product-card { background: var(--white); border-radius: 12px; border-top: 4px solid var(--orange); box-shadow: 0 2px 12px rgba(34,34,34,0.08); overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
     .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(247,148,29,0.2); }
-    .card-art { height: 180px; background-size: cover; position: relative; }
+    .card-art { height: 180px; background-size: cover; position: relative; overflow: hidden; }
+    .card-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .card-content { padding: 20px; }
     .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
     .cat-badge { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
@@ -289,6 +290,7 @@
       width: 100%; height: 100%; display: flex; align-items: center;
       justify-content: center; font-size: 80px;
     }
+    .detail-art-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .detail-cat-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
     .detail-cat { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
     .detail-name { font-size: 36px; font-weight: 900; color: var(--dark); line-height: 1.15; margin-bottom: 12px; }
@@ -331,7 +333,7 @@
   <!-- SIDEBAR -->
   <div id="sidebar">
     <div class="sidebar-head">
-      <img src="logo.svg" alt="GF&B Logo" class="sidebar-head-logo">
+      <img src="1000001321.svg" alt="GF&B Logo" class="sidebar-head-logo">
       <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">✕</button>
     </div>
     <div class="sidebar-section-title">Browse Categories</div>
@@ -346,7 +348,7 @@
     <div class="container nav-inner">
       <div id="logo-trigger" class="logo-trigger" onclick="toggleSidebar()" title="Open menu">
         <div class="logo-svg-wrap">
-          <img src="logo.svg" height="44" alt="GF&B Logo">
+          <img src="1000001321.svg" height="44" alt="GF&B Logo">
         </div>
         <span class="menu-label">Menu</span>
       </div>
@@ -589,14 +591,14 @@
     // PRODUCT DATA
     const products = [
       // Bhujia & Sev
-      { name: "Aloo Bhujia",      cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "Crispy golden potato noodles seasoned with a perfect blend of Indian spices. Our Aloo Bhujia is a classic tea-time favourite made from potato flour — light, crunchy and full of flavour." },
-      { name: "Arabpati Bhujia",  cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "Delicately thin sev crafted with aromatic spices. Arabpati Bhujia has a unique texture that melts on the tongue, delivering a burst of authentic Rajasthani flavour in every bite." },
-      { name: "Bikaneri Bhujia",  cat: "Bhujia & Sev",       spice: "Hot",    art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "The original Bikaner specialty — made from moth dal and a secret spice blend passed down through generations. Bold, hot, and irresistibly crunchy. A true icon of Indian snacking." },
-      { name: "Marwari Bhujia",   cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "A Marwari kitchen staple with a rich, spiced flavour profile. Made with gram flour and hand-selected spices, this bhujia pairs perfectly with chai or as a chaat topping." },
-      { name: "Paneer Bhujia",    cat: "Bhujia & Sev",       spice: "Mild",   art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "A mildly spiced bhujia variant enriched with paneer notes. Creamy in flavour yet crispy in texture — a crowd-pleaser for those who prefer a gentler heat." },
-      { name: "Nylon Sev",        cat: "Bhujia & Sev",       spice: "Mild",   art: "art-bhujia",      sizes: { "400gm": 242, "285gm": 186 }, desc: "Ultra-fine, hair-thin sev with a delicate crunch. Our Nylon Sev dissolves instantly on the palate, making it the perfect garnish for bhel puri, dahi puri, and all your favourite chaats." },
+      { name: "Aloo Bhujia",      cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      img: "aloo bhujiya.jpeg",                                        sizes: { "400gm": 242, "285gm": 186 }, desc: "Crispy golden potato noodles seasoned with a perfect blend of Indian spices. Our Aloo Bhujia is a classic tea-time favourite made from potato flour — light, crunchy and full of flavour." },
+      { name: "Arabpati Bhujia",  cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      img: "WhatsApp Image 2026-04-27 at 10.41.56 PM (1).jpeg",            sizes: { "400gm": 242, "285gm": 186 }, desc: "Delicately thin sev crafted with aromatic spices. Arabpati Bhujia has a unique texture that melts on the tongue, delivering a burst of authentic Rajasthani flavour in every bite." },
+      { name: "Bikaneri Bhujia",  cat: "Bhujia & Sev",       spice: "Hot",    art: "art-bhujia",      img: "WhatsApp Image 2026-04-27 at 10.41.57 PM (1).jpeg",            sizes: { "400gm": 242, "285gm": 186 }, desc: "The original Bikaner specialty — made from moth dal and a secret spice blend passed down through generations. Bold, hot, and irresistibly crunchy. A true icon of Indian snacking." },
+      { name: "Marwari Bhujia",   cat: "Bhujia & Sev",       spice: "Medium", art: "art-bhujia",      img: "WhatsApp Image 2026-04-27 at 10.41.57 PM (2).jpeg",            sizes: { "400gm": 242, "285gm": 186 }, desc: "A Marwari kitchen staple with a rich, spiced flavour profile. Made with gram flour and hand-selected spices, this bhujia pairs perfectly with chai or as a chaat topping." },
+      { name: "Paneer Bhujia",    cat: "Bhujia & Sev",       spice: "Mild",   art: "art-bhujia",      img: "WhatsApp Image 2026-04-27 at 10.41.57 PM (3).jpeg",            sizes: { "400gm": 242, "285gm": 186 }, desc: "A mildly spiced bhujia variant enriched with paneer notes. Creamy in flavour yet crispy in texture — a crowd-pleaser for those who prefer a gentler heat." },
+      { name: "Nylon Sev",        cat: "Bhujia & Sev",       spice: "Mild",   art: "art-bhujia",      img: "WhatsApp Image 2026-04-27 at 10.41.58 PM (2).jpeg",            sizes: { "400gm": 242, "285gm": 186 }, desc: "Ultra-fine, hair-thin sev with a delicate crunch. Our Nylon Sev dissolves instantly on the palate, making it the perfect garnish for bhel puri, dahi puri, and all your favourite chaats." },
       // Mixtures
-      { name: "Bengali Mixture",  cat: "Mixtures & Chakna",  spice: "Medium", art: "art-mixture",     sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "A delightful medley inspired by Kolkata's snack culture. With a sweet-spicy balance of sev, peanuts, and flattened rice, every handful is a celebration of flavour." },
+      { name: "Bengali Mixture",  cat: "Mixtures & Chakna",  spice: "Medium", art: "art-mixture",     img: "WhatsApp Image 2026-04-27 at 10.41.58 PM.jpeg",               sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "A delightful medley inspired by Kolkata's snack culture. With a sweet-spicy balance of sev, peanuts, and flattened rice, every handful is a celebration of flavour." },
       { name: "Chatpata Mixture", cat: "Mixtures & Chakna",  spice: "Hot",    art: "art-mixture",     sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "An explosion of tangy, hot and savoury flavours. Our Chatpata Mixture combines crunchy sev, roasted nuts, and spiced rice flakes for the ultimate party snack." },
       { name: "Chiwda (Masala)",  cat: "Mixtures & Chakna",  spice: "Medium", art: "art-mixture",     sizes: { "400gm": 242, "285gm": 186, "200gm": 122 }, desc: "Light and crispy flattened rice tossed with aromatic masala, curry leaves, and roasted peanuts. A Maharashtrian classic that is impossible to put down." },
       // Chana & Dal
@@ -722,8 +724,11 @@
         card.dataset.productIndex = products.indexOf(p);
         card.style.cursor = 'pointer';
 
+        const cardArtInner = p.img
+          ? `<img src="${p.img}" alt="${p.name}">`
+          : '';
         card.innerHTML = `
-          <div class="card-art ${p.art}" onclick="openProductDetail(${products.indexOf(p)})"></div>
+          <div class="card-art ${p.img ? '' : p.art}" onclick="openProductDetail(${products.indexOf(p)})">${cardArtInner}</div>
           <div class="card-content">
             <div class="card-header">
               <span class="cat-badge">${p.cat}</span>
@@ -816,7 +821,14 @@
       const sizesArr = Object.keys(p.sizes);
       detailSelectedSize = sizesArr[0];
 
-      document.getElementById('detail-art').className = `detail-art-bg ${p.art}`;
+      const detailArt = document.getElementById('detail-art');
+      if (p.img) {
+        detailArt.className = 'detail-art-bg';
+        detailArt.innerHTML = `<img src="${p.img}" alt="${p.name}">`;
+      } else {
+        detailArt.className = `detail-art-bg ${p.art}`;
+        detailArt.innerHTML = '';
+      }
       document.getElementById('detail-cat').textContent  = p.cat;
       const spiceBadge = document.getElementById('detail-spice');
       spiceBadge.textContent = p.spice;
